@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- mybatis 官网配置文档：https://mybatis.org/mybatis-3/zh/configuration.html -->
+
+    <!-- 属性，可以直接赋值，也可以外部进行配置，同一属性名以最后加载的为准
+    通过方法参数传递的属性具有最高优先级，resource/url 属性中指定的配置文件次之，最低优先级的则是 properties 元素中指定的属性。-->
+    <properties resource="db-connection.properties">
+        <property name="driver" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+    </properties>
+
+    <!-- settings 官网配置：https://mybatis.org/mybatis-3/zh/configuration.html#settings -->
+    <settings>
+        <!-- 这是是使用logback的配置-->
+        <setting name="logPrefix" value="dao."/>
+        <!-- 使用LOG4J打印日志-->
+        <!--<setting name="logImpl" value="LOG4J"/>-->
+    </settings>
+
+    <!-- 实体类别名设置 -->
+    <typeAliases>
+        <package name="top.simba1949.domain"/>
+    </typeAliases>
+
+    <!-- 类型处理器 https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers -->
+    <typeHandlers>
+        
+    </typeHandlers>
+
+    <!-- 插件(略) https://mybatis.org/mybatis-3/zh/configuration.html#plugins -->
+
+    <!--配置环境，可以配置多个环境，但是每个 SqlSessionFactory 实例只能选择一种环境。-->
+    <environments default="development">
+        <environment id="development">
+            <!--事务管理的配置 -->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--数据源的配置-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+                <!-- 事务隔离级别，默认数据库事务隔离级别-->
+                <!--<property name="defaultTransactionIsolationLevel" value=""/>-->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--映射器（mappers）-->
+    <mappers>
+        <package name="top.simba1949.mapper"/>
+    </mappers>
+</configuration>
