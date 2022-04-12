@@ -40,12 +40,15 @@ public class RoutingStatementHandler implements StatementHandler {
 
     switch (ms.getStatementType()) {
       case STATEMENT:
+        // 普通语句
         delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;
       case PREPARED:
+        // 预编译语句，默认
         delegate = new PreparedStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;
       case CALLABLE:
+        // 存储过程
         delegate = new CallableStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
         break;
       default:

@@ -691,16 +691,21 @@ public class Configuration {
     executorType = executorType == null ? defaultExecutorType : executorType;
     executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
     Executor executor;
+    // 支持批量的执行器
     if (ExecutorType.BATCH == executorType) {
       executor = new BatchExecutor(this, transaction);
     } else if (ExecutorType.REUSE == executorType) {
+      // 支持 statement 缓存的执行器
       executor = new ReuseExecutor(this, transaction);
     } else {
+      // 基础执行器
       executor = new SimpleExecutor(this, transaction);
     }
     if (cacheEnabled) {
+      // 装饰上支持缓存的执行器
       executor = new CachingExecutor(executor);
     }
+    // 装载扩展拦截器
     executor = (Executor) interceptorChain.pluginAll(executor);
     return executor;
   }

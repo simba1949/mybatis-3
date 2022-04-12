@@ -29,7 +29,7 @@
 
     <!-- 类型处理器 https://mybatis.org/mybatis-3/zh/configuration.html#typeHandlers -->
     <typeHandlers>
-        
+
     </typeHandlers>
 
     <!-- 插件(略) https://mybatis.org/mybatis-3/zh/configuration.html#plugins -->
@@ -51,7 +51,7 @@
         </environment>
     </environments>
 
-    <!--映射器（mappers）-->
+    <!-- 映射器（mappers）-->
     <mappers>
         <package name="top.simba1949.mapper"/>
     </mappers>

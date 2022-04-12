@@ -119,6 +119,7 @@ public class XPathParser {
 
   public XPathParser(Reader reader, boolean validation, Properties variables, EntityResolver entityResolver) {
     commonConstructor(validation, variables, entityResolver);
+    // 将 mybatis-config.xml 配置文件解析成虚拟文档 Document 对象
     this.document = createDocument(new InputSource(reader));
   }
 
@@ -227,6 +228,11 @@ public class XPathParser {
     }
   }
 
+  /**
+   * 通过读取输入流，将输入流数据信息读取到虚拟文档对象 Document 中；
+   * @param inputSource
+   * @return
+   */
   private Document createDocument(InputSource inputSource) {
     // important: this must only be called AFTER common constructor
     try {

@@ -92,7 +92,9 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
 
   private MapperMethodInvoker cachedInvoker(Method method) throws Throwable {
     try {
+      // 先从缓存 methodCache 获取，如果缓存中没有
       return MapUtil.computeIfAbsent(methodCache, method, m -> {
+        // 判断是否默认实现的方法
         if (m.isDefault()) {
           try {
             if (privateLookupInMethod == null) {
@@ -105,6 +107,7 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
             throw new RuntimeException(e);
           }
         } else {
+          // 方法外面会调用 PlainMethodInvoker.invoke() 方法
           return new PlainMethodInvoker(new MapperMethod(mapperInterface, method, sqlSession.getConfiguration()));
         }
       });
@@ -140,6 +143,16 @@ public class MapperProxy<T> implements InvocationHandler, Serializable {
       this.mapperMethod = mapperMethod;
     }
 
+    /**
+     * mapperMethod 为以后的 SQL 执行的一个中间对象
+     * 调用 mapperMethod.execute(sqlSession, args);
+     * @param proxy
+     * @param method
+     * @param args
+     * @param sqlSession
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args, SqlSession sqlSession) throws Throwable {
       return mapperMethod.execute(sqlSession, args);
